@@ -5,6 +5,7 @@ import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView.Adapter
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
+import com.example.gt_4m.data.local.Pref
 import com.example.gt_4m.databinding.ItemOnBoardingBinding
 import com.example.gt_4m.model.OnBoard
 import com.example.gt_4m.utils.loadImage
@@ -28,6 +29,7 @@ class OnBoardingAdapter(private val onStartClick:()-> Unit): Adapter<OnBoardingA
             "https://www.orangescrum.com/blog/wp-content/uploads/2019/09/Google-Tasks-%E2%80%93-Your-Personal-Task-Manager.png")
     )
 
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): OnBoardingViewHolder {
         return OnBoardingViewHolder(ItemOnBoardingBinding.inflate(LayoutInflater.from(parent.context), parent, false))
     }
@@ -47,6 +49,7 @@ class OnBoardingAdapter(private val onStartClick:()-> Unit): Adapter<OnBoardingA
 
                 btnStart.setOnClickListener {
                     onStartClick()
+
                 }
                 btnSkip.setOnClickListener {
                     onStartClick()

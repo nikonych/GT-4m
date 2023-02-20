@@ -8,13 +8,14 @@ import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
 import androidx.viewpager2.widget.ViewPager2
 import com.example.gt_4m.R
+import com.example.gt_4m.data.local.Pref
 import com.example.gt_4m.databinding.FragmentOnBoardingBinding
 import com.example.gt_4m.ui.onBoard.adapter.OnBoardingAdapter
 import me.relex.circleindicator.CircleIndicator3
 
 class OnBoardingFragment : Fragment() {
     private lateinit var binding: FragmentOnBoardingBinding
-
+    private lateinit var pref: Pref
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -26,7 +27,9 @@ class OnBoardingFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        pref = Pref(requireContext())
         val adapter = OnBoardingAdapter{
+            pref.saveUserSeen()
             findNavController().navigate(OnBoardingFragmentDirections.actionOnBoardingFragmentToNavigationHome())
         }
         binding.viewPager.adapter = adapter
