@@ -9,4 +9,7 @@
     <string name="description">Description</string>
     <string name="task">Task</string>
     <string name="profile">Profile</string>
+    <string name="skip">Skip</string>
+    <string name="get_start">Get Started</string>
+    <string name="exception">Exception</string>
 </resources>
