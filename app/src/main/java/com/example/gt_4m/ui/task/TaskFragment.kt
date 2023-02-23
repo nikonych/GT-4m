@@ -8,6 +8,7 @@ import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.setFragmentResult
 import androidx.navigation.fragment.findNavController
+import com.example.gt_4m.App
 import com.example.gt_4m.databinding.FragmentTaskBinding
 import com.example.gt_4m.model.Task
 import com.example.gt_4m.ui.home.HomeFragment
@@ -28,11 +29,10 @@ class TaskFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         binding.btnSave.setOnClickListener {
             val task = Task(
-                binding.etTitle.text.toString(),
-                binding.etDesc.text.toString()
+                title = binding.etTitle.text.toString(),
+                description = binding.etDesc.text.toString()
             )
-
-            setFragmentResult(HomeFragment.RESULT_REQUEST_KEY, bundleOf(HomeFragment.TASK_KEY to task))
+            App.db.taskDao().insert(task)
             findNavController().navigateUp()
 
         }

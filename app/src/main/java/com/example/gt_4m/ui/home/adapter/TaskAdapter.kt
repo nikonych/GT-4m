@@ -4,15 +4,34 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView.Adapter
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
+import com.example.gt_4m.App
 import com.example.gt_4m.databinding.ItemTaskBinding
 import com.example.gt_4m.model.Task
 
 class TaskAdapter : Adapter<TaskAdapter.TaskViewHolder>() {
     private val data = arrayListOf<Task>()
+    var onItemLongClick: ((Task) -> Unit)?= null
 
-    fun addTask(task: Task){
-        data.add(0, task)
-        notifyItemChanged(0)
+    fun addTask(tasks: List<Task>){
+        data.clear()
+        data.addAll(tasks)
+        notifyDataSetChanged()
+    }
+
+    fun reloadData(){
+        data.clear()
+        data.addAll(App.db.taskDao().getAll())
+        notifyDataSetChanged()
+    }
+
+    fun deleteItem(i:Int){
+        data.removeAt(i)
+        notifyDataSetChanged()
+    }
+
+    fun UndoItem(i: Int, task: Task){
+        data.add(i, task)
+        notifyDataSetChanged()
     }
 
 
@@ -34,6 +53,13 @@ class TaskAdapter : Adapter<TaskAdapter.TaskViewHolder>() {
                 tvDesc.text = task.description
             }
 
+        }
+
+        init {
+            itemView.setOnLongClickListener {
+                onItemLongClick?.invoke(data[adapterPosition])
+                return@setOnLongClickListener true
+            }
         }
 
     }

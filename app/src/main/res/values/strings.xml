@@ -12,4 +12,7 @@
     <string name="skip">Skip</string>
     <string name="get_start">Get Started</string>
     <string name="exception">Exception</string>
+    <string name="confirm_delete">Are you sure?</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
 </resources>

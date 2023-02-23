@@ -2,6 +2,7 @@ plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
     id 'androidx.navigation.safeargs'
+    id 'kotlin-kapt'
 }
 
 android {
@@ -58,4 +59,16 @@ dependencies {
     implementation 'me.relex:circleindicator:2.1.6'
 //    dotsindicator
     implementation("com.tbuonomo:dotsindicator:4.3")
+
+    def room_version = "2.5.0"
+
+    implementation "androidx.room:room-runtime:$room_version"
+    annotationProcessor "androidx.room:room-compiler:$room_version"
+
+    // To use Kotlin annotation processing tool (kapt)
+    kapt "androidx.room:room-compiler:$room_version"
+
+//    RecyclerViewSwipeDecorator
+    implementation 'it.xabaras.android:recyclerview-swipedecorator:1.4'
+
 }

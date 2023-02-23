@@ -28,4 +28,15 @@
         android:src="@drawable/ic_add"
         />
 
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fab_random"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/fab"
+        android:layout_margin="24dp"
+        android:backgroundTint="@color/purple_200"
+        android:src="@drawable/ic_add"
+        />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
