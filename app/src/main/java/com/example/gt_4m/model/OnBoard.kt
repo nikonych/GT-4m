@@ -5,3 +5,12 @@ data class OnBoard(
     var desc: String? = null,
     var image: String? = null,
 ) : java.io.Serializable
+
+
+
+
+
+
+
+
+

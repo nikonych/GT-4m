@@ -7,7 +7,7 @@ import com.example.gt_4m.model.Task
 interface TaskDao {
 
     @Query("select * from task order by id desc")
-    fun getAll(): List<Task>
+    fun getAll(): MutableList<Task>
 
     @Insert
     fun insert(task: Task)

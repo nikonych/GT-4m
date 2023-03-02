@@ -15,4 +15,5 @@
     <string name="confirm_delete">Are you sure?</string>
     <string name="yes">Yes</string>
     <string name="no">No</string>
+    <string name="delete">Delete</string>
 </resources>

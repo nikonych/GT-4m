@@ -1,6 +1,7 @@
 package com.example.gt_4m.ui.home
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -51,30 +52,40 @@ class HomeFragment : Fragment() {
 
             findNavController().navigate(R.id.taskFragment)
         }
-        val tasks = App.db.taskDao().getAll()
+        var tasks = App.db.taskDao().getAll()
         adapter.addTask(tasks)
 
-        val swipeTask = object : SwipeTask(this.context){
+        val swipeTask = object : SwipeTask(this.context) {
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-                when(direction){
+                when (direction) {
                     ItemTouchHelper.LEFT -> {
-                        adapter.deleteItem(viewHolder.absoluteAdapterPosition)
-                        adapter.notifyItemRemoved(viewHolder.absoluteAdapterPosition)
-
+                        binding.fab.isClickable = false
+                        binding.fabRandom.isClickable = false
+                        var item_id = viewHolder.absoluteAdapterPosition
+                        var task = tasks[item_id]
+                        tasks.removeAt(item_id)
+                        adapter.deleteItem(item_id)
+                        adapter.notifyItemRemoved(item_id)
+                        var isUndo = false
+                        Log.d("gg", tasks.toString() + item_id.toString())
                         Snackbar.make(view, "Deleted", Snackbar.LENGTH_LONG)
                             .setAction(
                                 "Undo",
                                 View.OnClickListener {
                                     adapter.reloadData()
+                                    isUndo = true
+                                    tasks = App.db.taskDao().getAll()
                                 })
-                            .addCallback(object : BaseTransientBottomBar.BaseCallback<Snackbar>(){
-                                override fun onDismissed(transientBottomBar: Snackbar?, event: Int) {
-                                    when (event) {
-                                        Snackbar.Callback.DISMISS_EVENT_ACTION ->
-                                            adapter.reloadData()
-                                        else -> App.db.taskDao().delete(tasks[viewHolder.absoluteAdapterPosition])
-                                    }
+                            .addCallback(object : BaseTransientBottomBar.BaseCallback<Snackbar>() {
+                                override fun onDismissed(
+                                    transientBottomBar: Snackbar?,
+                                    event: Int
+                                ) {
+                                    if (!isUndo)
+                                        App.db.taskDao().delete(task)
 
+                                    binding.fab.isClickable = true
+                                    binding.fabRandom.isClickable = true
                                 }
                             })
                             .show()
@@ -82,19 +93,14 @@ class HomeFragment : Fragment() {
                 }
 
 
-
             }
         }
-
-
-
-
         val touchHelper = ItemTouchHelper(swipeTask)
         touchHelper.attachToRecyclerView(binding.rvTasks)
 
         binding.rvTasks.adapter = adapter
 
-        adapter.onItemLongClick={
+        adapter.onItemLongClick = {
             val dialog = DeleteDialog(it, adapter)
             dialog.show(parentFragmentManager, "gg")
 
@@ -103,25 +109,29 @@ class HomeFragment : Fragment() {
 
 
         binding.fabRandom.setOnClickListener {
-            val taskRandom = Task(title = getRandomString(10), description = getRandomString(100))
+            val taskRandom = Task(
+                title = getRandomString(1),
+                description = getRandomString(1)
+            )
             App.db.taskDao().insert(taskRandom)
             adapter.reloadData()
+            tasks = App.db.taskDao().getAll()
         }
 
     }
 
 
-    fun getRandomString(length: Int) : String {
+    fun getRandomString(length: Int): String {
         val allowedChars = ('A'..'Z') + ('a'..'z') + ('0'..'9')
         return (1..length)
             .map { allowedChars.random() }
             .joinToString("")
     }
 
-    companion object {
-        const val RESULT_REQUEST_KEY = "request_key"
-        const val TASK_KEY = "task_key"
+
+    fun SwipeToDelete() {
 
     }
+
 
 }
