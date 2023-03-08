@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "679183345516",
+    "project_id": "gt-4m-ed8a2",
+    "storage_bucket": "gt-4m-ed8a2.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:679183345516:android:8b530ad779eadd8eeeb549",
+        "android_client_info": {
+          "package_name": "com.example.gt_4m"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "679183345516-hhmlhqq589n5idb2fpjs6918lc34qnqj.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAMKDNGjQD9D3ahyJwJjsZ6jMjazMb8brc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "679183345516-hhmlhqq589n5idb2fpjs6918lc34qnqj.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

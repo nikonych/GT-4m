@@ -2,22 +2,26 @@ package com.example.gt_4m.ui.profile
 
 import android.app.Activity
 import android.content.Intent
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
+
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
-import android.util.Base64
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts.StartActivityForResult
+import androidx.core.graphics.drawable.toDrawable
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentActivity
+import androidx.fragment.app.FragmentManager
+import androidx.navigation.fragment.findNavController
+import com.example.gt_4m.R
 import com.example.gt_4m.data.local.Pref
 import com.example.gt_4m.databinding.FragmentProfileBinding
-import java.net.URI
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 
 
 class ProfileFragment : Fragment() {
@@ -51,9 +55,13 @@ class ProfileFragment : Fragment() {
         binding.etProfile.setText(pref.getUserName())
         Log.d("gg", pref.getUserImg())
         try {
-            binding.imgProfile.setImageURI(Uri.parse(pref.getUserImg()))
+            if (pref.getUserImg().equals("Image")){
+                binding.imgProfile.setImageDrawable(R.drawable.ic_profile.toDrawable())
+            } else
+                binding.imgProfile.setImageURI(Uri.parse(pref.getUserImg()))
         } catch (e: IllegalArgumentException) {
             Log.d("gg", e.toString())
+            binding.imgProfile.setImageDrawable(R.drawable.ic_profile.toDrawable())
         }
 
 
@@ -71,6 +79,17 @@ class ProfileFragment : Fragment() {
 
         }
 
+        binding.btnExit.setOnClickListener {
+            Firebase.auth.signOut()
+            if (FragmentActivity().supportFragmentManager.backStackEntryCount > 0) {
+                FragmentActivity().supportFragmentManager.popBackStackImmediate(
+                    null,
+                    FragmentManager.POP_BACK_STACK_INCLUSIVE
+                )
+            }
+            findNavController().navigate(R.id.authFragment)
+        }
+
     }
 
 
@@ -80,8 +99,5 @@ class ProfileFragment : Fragment() {
     }
 
 
-    companion object {
-        private const val RESULT_LOAD_IMG = 1
-    }
 
 }

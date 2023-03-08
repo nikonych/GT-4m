@@ -13,16 +13,18 @@ import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.example.gt_4m.data.local.Pref
 import com.example.gt_4m.databinding.ActivityMainBinding
+import com.example.gt_4m.ui.auth.AuthFragmentDirections
 import com.example.gt_4m.ui.home.HomeFragmentDirections
+import com.google.firebase.auth.FirebaseAuth
 
 class MainActivity : AppCompatActivity() {
-
+    private lateinit var auth: FirebaseAuth
     private lateinit var binding: ActivityMainBinding
     private lateinit var pref: Pref
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
+        auth = FirebaseAuth.getInstance()
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         pref = Pref(this)
@@ -31,8 +33,14 @@ class MainActivity : AppCompatActivity() {
         val navController = findNavController(R.id.nav_host_fragment_activity_main)
 
 
-        if (!pref.isUserSeen())
+        if (!pref.isUserSeen()) {
             navController.navigate(HomeFragmentDirections.actionNavigationHomeToOnBoardingFragment())
+        }
+
+        if(auth.currentUser?.uid == null){
+            navController.navigate(R.id.authFragment)
+        }
+
         val appBarConfiguration = AppBarConfiguration(
             setOf(
                 R.id.navigation_home,
