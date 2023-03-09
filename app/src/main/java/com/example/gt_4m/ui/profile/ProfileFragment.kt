@@ -29,6 +29,7 @@ class ProfileFragment : Fragment() {
     private lateinit var binding: FragmentProfileBinding
     private lateinit var pref: Pref
     private var resultLauncher: ActivityResultLauncher<Intent>? = null
+    private var isNotEditable = false
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -64,9 +65,22 @@ class ProfileFragment : Fragment() {
             binding.imgProfile.setImageDrawable(R.drawable.ic_profile.toDrawable())
         }
 
+        binding.imgProfile.isEnabled = false
+        binding.etProfile.isEnabled = false
 
 
 
+        binding.btnChange.setOnClickListener {
+            if (isNotEditable) {
+                binding.imgProfile.isEnabled = false
+                binding.etProfile.isEnabled = false
+                isNotEditable = !isNotEditable
+            } else {
+                binding.imgProfile.isEnabled = true
+                binding.etProfile.isEnabled = true
+                isNotEditable = !isNotEditable
+            }
+        }
 
 
         binding.imgProfile.setOnClickListener {

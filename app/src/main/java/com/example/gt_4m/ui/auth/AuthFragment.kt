@@ -34,8 +34,7 @@ class AuthFragment : Fragment() {
 
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View? {
         binding = FragmentAuthBinding.inflate(inflater, container, false)
         // Inflate the layout for this fragment
@@ -51,8 +50,7 @@ class AuthFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         auth = FirebaseAuth.getInstance()
         val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-            .requestIdToken(getString(R.string.default_web_client_id))
-            .requestEmail().build()
+            .requestIdToken(getString(R.string.default_web_client_id)).requestEmail().build()
         signInOptions = GoogleSignIn.getClient(requireActivity(), gso)
         binding.btnGoogle.setOnClickListener {
             signIn()
@@ -67,11 +65,7 @@ class AuthFragment : Fragment() {
             false
         }
 
-
-
-
     }
-
 
 
     private fun signIn() {
@@ -82,24 +76,25 @@ class AuthFragment : Fragment() {
         resultLauncher.launch(intent)
     }
 
-//    fun openSomeActivityForResult() {
-//        val intent = Intent(this, SomeActivity::class.java)
-//        resultLauncher.launch(intent)
-//    }
 
-    var resultLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
-        if (result.resultCode == Activity.RESULT_OK) {
-            // There are no request codes
-            val data: Intent? = result.data
-            val task: Task<GoogleSignInAccount> = GoogleSignIn.getSignedInAccountFromIntent(data)
-            try {
-                val account: GoogleSignInAccount = task.getResult(ApiException::class.java)
-                firebaseAuthWithGoogle(account)
-            } catch (e: ApiException) {
+    var resultLauncher =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            if (result.resultCode == Activity.RESULT_OK) {
+                // There are no request codes
+                val data: Intent? = result.data
+                val task: Task<GoogleSignInAccount> =
+                    GoogleSignIn.getSignedInAccountFromIntent(data)
+                try {
+                    val account: GoogleSignInAccount = task.getResult(ApiException::class.java)
+                    firebaseAuthWithGoogle(account)
+                } catch (e: ApiException) {
 
+                }
             }
         }
-    }
+
+
+
 
 //    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
 //        super.onActivityResult(requestCode, resultCode, data)
@@ -114,21 +109,18 @@ class AuthFragment : Fragment() {
 //        }
 //    }
 
+
     private fun firebaseAuthWithGoogle(acct: GoogleSignInAccount) {
         val credential: AuthCredential = GoogleAuthProvider.getCredential(acct.idToken, null)
-        auth.signInWithCredential(credential)
-            .addOnSuccessListener{ authResult ->
-                findNavController().navigateUp()
+        auth.signInWithCredential(credential).addOnSuccessListener { authResult ->
+            findNavController().navigateUp()
 
-            }
-            .addOnFailureListener { e ->
-                
-            }
+        }.addOnFailureListener { e ->
+
+        }
 
 
     }
-
-
 
 
 }

@@ -1,6 +1,7 @@
 package com.example.gt_4m
 
 import android.os.Bundle
+import android.util.Log
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
@@ -16,6 +17,7 @@ import com.example.gt_4m.databinding.ActivityMainBinding
 import com.example.gt_4m.ui.auth.AuthFragmentDirections
 import com.example.gt_4m.ui.home.HomeFragmentDirections
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.messaging.FirebaseMessaging
 
 class MainActivity : AppCompatActivity() {
     private lateinit var auth: FirebaseAuth
@@ -68,5 +70,10 @@ class MainActivity : AppCompatActivity() {
             }
         }
         navView.setupWithNavController(navController)
+
+        FirebaseMessaging.getInstance().token.addOnSuccessListener {
+            Log.d("gg", it.toString())
+        }
+
     }
 }
