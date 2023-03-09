@@ -42,13 +42,7 @@ class AuthFragment : Fragment() {
 
         binding.root.isFocusableInTouchMode = true
         binding.root.requestFocus()
-        binding.root.setOnKeyListener { _, keyCode, event ->
-            if (keyCode == KeyEvent.KEYCODE_BACK && event.action == KeyEvent.ACTION_UP) {
-                requireActivity().finish() // Завершить активность
-                return@setOnKeyListener true
-            }
-            false
-        }
+
 
         return binding.root
     }
@@ -63,6 +57,14 @@ class AuthFragment : Fragment() {
         binding.btnGoogle.setOnClickListener {
             signIn()
 
+        }
+
+        binding.root.setOnKeyListener { _, keyCode, event ->
+            if (keyCode == KeyEvent.KEYCODE_BACK && event.action == KeyEvent.ACTION_UP) {
+                requireActivity().finish() // Завершить активность
+                return@setOnKeyListener true
+            }
+            false
         }
 
 
